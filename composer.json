@@ -1,5 +1,5 @@
 {
-    "name": "Kelvinmbewe/omnipay-paynow",
+    "name": "kelvinmbewe/omnipay-paynow",
     "type": "library",
     "description": "paynow driver for the Omnipay payment processing library",
     "keywords": [
@@ -11,7 +11,7 @@
         "payment",
         "zimbabwe"
     ],
-    "homepage": "https://github.com/Kelvinmbewe/omnipay-paynow",
+    "homepage": "https://github.com/kelvinmbewe/omnipay-paynow",
     "license": "MIT",
     "authors": [
         {
@@ -20,7 +20,7 @@
         },
         {
             "name": "Omnipay Contributors",
-            "homepage": "https://github.com/Kelvinmbewe/omnipay-paynow/contributors"
+            "homepage": "https://github.com/kelvinmbewe/omnipay-paynow/contributors"
         }
     ],
     "autoload": {
