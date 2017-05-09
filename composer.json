@@ -1,31 +1,30 @@
 {
-    "name": "omnipay/2checkout",
+    "name": "Kelvinmbewe/omnipay-paynow",
     "type": "library",
-    "description": "2Checkout driver for the Omnipay payment processing library",
+    "description": "paynow driver for the Omnipay payment processing library",
     "keywords": [
-        "2checkout",
-        "2co",
+        "paynow",
         "gateway",
         "merchant",
         "omnipay",
         "pay",
         "payment",
-        "twocheckout"
+        "zimbabwe"
     ],
-    "homepage": "https://github.com/thephpleague/omnipay-2checkout",
+    "homepage": "https://github.com/Kelvinmbewe/omnipay-paynow",
     "license": "MIT",
     "authors": [
         {
-            "name": "Adrian Macneil",
-            "email": "adrian@adrianmacneil.com"
+            "name": "Kelvin Mbewe",
+            "email": "Kmbewe959@gmail.com"
         },
         {
             "name": "Omnipay Contributors",
-            "homepage": "https://github.com/thephpleague/omnipay-2checkout/contributors"
+            "homepage": "https://github.com/Kelvinmbewe/omnipay-paynow/contributors"
         }
     ],
     "autoload": {
-        "psr-4": { "Omnipay\\TwoCheckout\\" : "src/" }
+        "psr-4": { "Kelvinmbewe\\omnipay-paynow\\" : "src/" }
     },
     "require": {
         "omnipay/common": "~2.0"
