@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\PayNow;
+namespace Omnipay\PayZim;
 
 use Omnipay\Tests\GatewayTestCase;
 use Omnipay\Common\CreditCard;

@@ -1,13 +1,13 @@
 <?php
 
-namespace Omnipay\Paynow;
+namespace Omnipay\PayZim;
 
 use Omnipay\Common\AbstractGateway;
-use Omnipay\PayNow\Message\CompletePurchaseRequest;
-use Omnipay\PayNow\Message\PurchaseRequest;
+use Omnipay\PayZim\Message\CompletePurchaseRequest;
+use Omnipay\PayZim\Message\PurchaseRequest;
 
 /**
- * Paynow Gateway
+ * PayNow Gateway
  *
  * @link http://developers.paynow.co.zw/
  */
@@ -49,11 +49,11 @@ class Gateway extends AbstractGateway
 
     public function purchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\PayNow\Message\PurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\PayZim\Message\PurchaseRequest', $parameters);
     }
 
     public function completePurchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\PayNow\Message\CompletePurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\PayZim\Message\CompletePurchaseRequest', $parameters);
     }
 }

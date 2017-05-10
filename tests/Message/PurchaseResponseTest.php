@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\PayNow\Message;
+namespace Omnipay\PayZim\Message;
 
 use Omnipay\Tests\TestCase;
 
