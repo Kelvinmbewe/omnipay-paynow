@@ -1,8 +1,9 @@
 <?php
 
-namespace Omnipay\PayZim\Message;
+namespace Omnipay\PayNow\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
+use Omnipay\Common\Message\RequestInterface;
 use Omnipay\Common\Message\RedirectResponseInterface;
 
 /**
@@ -10,7 +11,13 @@ use Omnipay\Common\Message\RedirectResponseInterface;
  */
 class PurchaseResponse extends AbstractResponse implements RedirectResponseInterface
 {
-    protected $endpoint = 'https://www.paynow.co.zw/interface/initiatetransaction';
+    protected $redirectUrl;
+
+    public function __construct(RequestInterface $request, $data, $redirectUrl)
+    {
+        parent::__construct($request, $data);
+        $this->redirectUrl = $redirectUrl;
+    }
 
     public function isSuccessful()
     {
@@ -24,16 +31,16 @@ class PurchaseResponse extends AbstractResponse implements RedirectResponseInter
 
     public function getRedirectUrl()
     {
-        return $this->endpoint.'?'.http_build_query($this->data);
+        return $this->redirectUrl;
     }
 
     public function getRedirectMethod()
     {
-        return 'GET';
+        return 'POST';
     }
 
     public function getRedirectData()
     {
-        return null;
+        return $this->getData();
     }
 }

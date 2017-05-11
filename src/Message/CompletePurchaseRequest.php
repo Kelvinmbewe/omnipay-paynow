@@ -1,33 +1,55 @@
 <?php
 
-namespace Omnipay\PayZim\Message;
+namespace Omnipay\PayNow\Message;
 
-use Omnipay\Common\Exception\InvalidResponseException;
+use Omnipay\Common\Exception\InvalidRequestException;
 
 /**
  * PayNow Complete Purchase Request
+ *
+ * We use the same return URL & class to handle both PDT (Payment Data Transfer)
+ * and ITN (Instant Transaction Notification).
  */
 class CompletePurchaseRequest extends PurchaseRequest
 {
     public function getData()
     {
-        $orderNo = $this->httpRequest->request->get('order_number');
+        if ($this->httpRequest->query->get('pt')) {
+            // this is a Payment Data Transfer request
+            $data = array();
+            $data['pt'] = $this->httpRequest->query->get('pt');
+            $data['at'] = $this->getPdtKey();
 
-        // strange exception specified by PayNow
-        if ($this->getTestMode()) {
-            $orderNo = '1';
+            return $data;
+        } elseif ($signature = $this->httpRequest->request->get('signature')) {
+            // this is an Instant Transaction Notification request
+            $data = $this->httpRequest->request->all();
+
+            // signature is completely useless since it has no shared secret
+            // signature must not be posted back to the validate URL, so we unset it
+            unset($data['signature']);
+
+            return $data;
         }
 
-        $key = md5($this->getIntegrationKey().$this->getIntegrationID().$orderNo.$this->getAmount());
-        if (strtolower($this->httpRequest->request->get('key')) !== $key) {
-            throw new InvalidResponseException('Invalid key');
-        }
-
-        return $this->httpRequest->request->all();
+        throw new InvalidRequestException('Missing PDT or ITN variables');
     }
 
     public function sendData($data)
     {
-        return $this->response = new CompletePurchaseResponse($this, $data);
+        if (isset($data['pt'])) {
+            // validate PDT
+            $url = $this->getEndpoint().'/query/fetch';
+            $httpResponse = $this->httpClient->post($url, null, $data)->send();
+
+            return $this->response = new CompletePurchasePdtResponse($this, $httpResponse->getBody(true));
+        } else {
+            // validate ITN
+            $url = $this->getEndpoint().'/query/validate';
+            $httpResponse = $this->httpClient->post($url, null, $data)->send();
+            $status = $httpResponse->getBody(true);
+
+            return $this->response = new CompletePurchaseItnResponse($this, $data, $status);
+        }
     }
 }

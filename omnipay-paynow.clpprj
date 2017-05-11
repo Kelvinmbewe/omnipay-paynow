@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="C:\Users\Kelvin\Documents\GitHub\omnipay-paynow\omnipay-paynow.clpprj">
+	<settings><PM_URL><![CDATA[C:/xampp/htdocs/]]></PM_URL><PM_HOME_URL><![CDATA[C:/xampp/htdocs/]]></PM_HOME_URL><PM_LIBS><![CDATA[]]></PM_LIBS><PM_FTP_CONNECTION><![CDATA[]]></PM_FTP_CONNECTION><PM_FTP_DIR><![CDATA[]]></PM_FTP_DIR><PM_FTP_UPLOAD_ON_SAVE><![CDATA[INT:0]]></PM_FTP_UPLOAD_ON_SAVE></settings><removed value=";"/><added value=""/><lastopfiles>
+		<file name="C:\Users\Kelvin\Documents\GitHub\omnipay-paynow\omnipay-ifthenpay-master\src\Message\CompletePurchaseRequest.php"/>
+		<file name="C:\Users\Kelvin\Documents\GitHub\omnipay-paynow\omnipay-ifthenpay-master\src\Gateway.php"/>
+		<file name="C:\Users\Kelvin\Documents\GitHub\omnipay-paynow\src\Gateway.php"/>
+		<file name="C:\Users\Kelvin\Documents\GitHub\omnipay-paynow\omnipay-ifthenpay-master\src\Message\CompletePurchaseResponse.php"/>
+		<file name="C:\Users\Kelvin\Documents\GitHub\omnipay-paynow\omnipay-ifthenpay-master\src\Message\PurchaseRequest.php"/>
+	</lastopfiles>
+	<errors version="5.11">
+	</errors>
+	<cakedata>
+	</cakedata>
+	<dplmenupath>
+	</dplmenupath><laravael>
+	</laravael><smartyassings>
+	</smartyassings><twigtemplate>
+	</twigtemplate><yiidata>
+	</yiidata>
+	<todoblock>
+	</todoblock>
+	<dbgurls>
+	</dbgurls>
+	<filescache>
+		<file name="C:\Users\Kelvin\Documents\GitHub\omnipay-paynow\tests\Message\PurchaseResponseTest.php" crc="1494345792"/>
+		<file name="C:\Users\Kelvin\Documents\GitHub\omnipay-paynow\tests\Message\PurchaseRequestTest.php" crc="1494344784"/>
+		<file name="C:\Users\Kelvin\Documents\GitHub\omnipay-paynow\tests\Message\CompletePurchaseResponseTest.php" crc="1494338217"/>
+		<file name="C:\Users\Kelvin\Documents\GitHub\omnipay-paynow\tests\GatewayTest.php" crc="1494345683"/>
+		<file name="C:\Users\Kelvin\Documents\GitHub\omnipay-paynow\src\Message\PurchaseResponse.php" crc="1494345333"/>
+		<file name="C:\Users\Kelvin\Documents\GitHub\omnipay-paynow\src\Message\PurchaseRequest.php" crc="1494344848"/>
+		<file name="C:\Users\Kelvin\Documents\GitHub\omnipay-paynow\src\Message\CompletePurchaseResponse.php" crc="1494343899"/>
+		<file name="C:\Users\Kelvin\Documents\GitHub\omnipay-paynow\src\Message\CompletePurchaseRequest.php" crc="1494344848"/>
+		<file name="C:\Users\Kelvin\Documents\GitHub\omnipay-paynow\src\Gateway.php" crc="1494344847"/>
+		<file name="C:\Users\Kelvin\Documents\GitHub\omnipay-paynow\omnipay-ifthenpay-master\src\Message\Response.php" crc="1456277578"/>
+		<file name="C:\Users\Kelvin\Documents\GitHub\omnipay-paynow\omnipay-ifthenpay-master\src\Message\PurchaseRequest.php" crc="1456277578"/>
+		<file name="C:\Users\Kelvin\Documents\GitHub\omnipay-paynow\omnipay-ifthenpay-master\src\Message\CompletePurchaseResponse.php" crc="1456277578"/>
+		<file name="C:\Users\Kelvin\Documents\GitHub\omnipay-paynow\omnipay-ifthenpay-master\src\Message\CompletePurchaseRequest.php" crc="1456277578"/>
+		<file name="C:\Users\Kelvin\Documents\GitHub\omnipay-paynow\omnipay-ifthenpay-master\src\Gateway.php" crc="1494371168"/>
+		<file name="C:\Users\Kelvin\Documents\GitHub\omnipay-paynow\omnipay-ifthenpay-master\.travis.yml" crc="1456277578"/>
+		<file name="C:\Users\Kelvin\Documents\GitHub\omnipay-paynow\.travis.yml" crc="1410914138"/>
+	</filescache>
+</project>

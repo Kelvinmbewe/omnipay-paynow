@@ -1,27 +1,49 @@
 <?php
 
-namespace Omnipay\PayZim\Message;
+namespace Omnipay\PayNow\Message;
 
 use Omnipay\Tests\TestCase;
 
 class PurchaseRequestTest extends TestCase
 {
-    public function testConstruct()
+    public function setUp()
     {
-        $request = new PurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
+        $this->request = new PurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
+    }
 
-        $request->setIntegrationID('12345');
-        $request->setIntegrationKey('integration_key');
-        $request->setTransactionId('mytransaction1');
-        $request->setAmount('10.00');
-        $request->setReturnUrl('http://example.com/return');
+    public function testSignature()
+    {
+        $this->request->initialize(
+            array(
+                'amount' => '12.00',
+                'description' => 'Test Product',
+                'transactionId' => 123,
+                'merchantId' => 'foo',
+                'merchantKey' => 'bar',
+                'returnUrl' => 'https://www.example.com/return',
+                'cancelUrl' => 'https://www.example.com/cancel',
+            )
+        );
 
-        $requestData = $request->getData();
+        $data = $this->request->getData();
+        $this->assertSame('ab86df60906e97d3bfb362aff26fd9e6', $data['signature']);
+    }
 
-        $this->assertEquals($requestData['sid'], '12345');
-        $this->assertEquals($requestData['cart_order_id'], 'mytransaction1');
-        $this->assertEquals($requestData['merchant_order_id'], 'mytransaction1');
-        $this->assertEquals($requestData['total'], '10.00');
-        $this->assertEquals($requestData['x_receipt_link_url'], 'http://example.com/return');
+    public function testPurchase()
+    {
+        $this->request->setAmount('12.00')->setDescription('Test Product');
+
+        $response = $this->request->send();
+
+        $this->assertInstanceOf('Omnipay\PayNow\Message\PurchaseResponse', $response);
+        $this->assertFalse($response->isSuccessful());
+        $this->assertTrue($response->isRedirect());
+        $this->assertNull($response->getTransactionReference());
+        $this->assertNull($response->getMessage());
+        $this->assertNull($response->getCode());
+
+        $this->assertSame('https://www.paynow.co.zw/interface/initiatetransaction', $response->getRedirectUrl());
+        $this->assertSame('POST', $response->getRedirectMethod());
+        $this->assertArrayHasKey('signature', $response->getData());
     }
 }

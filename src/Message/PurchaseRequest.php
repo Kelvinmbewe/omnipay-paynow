@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\PayZim\Message;
+namespace Omnipay\PayNow\Message;
 
 use Omnipay\Common\Message\AbstractRequest;
 
@@ -9,61 +9,88 @@ use Omnipay\Common\Message\AbstractRequest;
  */
 class PurchaseRequest extends AbstractRequest
 {
-    public function getIntegrationID()
+    protected $liveEndpoint = 'https://www.paynow.co.zw/interface';
+    protected $testEndpoint = 'https://www.paynow.co.zw/interface';
+
+    public function getMerchantId()
     {
-        return $this->getParameter('integration_id');
+        return $this->getParameter('merchantId');
     }
 
-    public function setIntegrationID($value)
+    public function setMerchantId($value)
     {
-        return $this->setParameter('integration_id', $value);
+        return $this->setParameter('merchantId', $value);
     }
 
-    public function getIntegrationKey()
+    public function getMerchantKey()
     {
-        return $this->getParameter('integration_key');
+        return $this->getParameter('merchantKey');
     }
 
-    public function setIntegrationKey($value)
+    public function setMerchantKey($value)
     {
-        return $this->setParameter('integration_key', $value);
+        return $this->setParameter('merchantKey', $value);
+    }
+
+    public function getPdtKey()
+    {
+        return $this->getParameter('pdtKey');
+    }
+
+    public function setPdtKey($value)
+    {
+        return $this->setParameter('pdtKey', $value);
     }
 
     public function getData()
     {
-        $this->validate('amount', 'returnUrl');
+        $this->validate('amount', 'description');
 
         $data = array();
-        $data['sid'] = $this->getIntegrationID();
-        $data['cart_order_id'] = $this->getTransactionId();
-        $data['merchant_order_id'] = $this->getTransactionId();
-        $data['total'] = $this->getAmount();
-        $data['tco_currency'] = $this->getCurrency();
-        $data['fixed'] = 'Y';
-        $data['skip_landing'] = 1;
-        $data['x_receipt_link_url'] = $this->getReturnUrl();
+        $data['merchant_id'] = $this->getMerchantId();
+        $data['merchant_key'] = $this->getMerchantKey();
+        $data['return_url'] = $this->getReturnUrl();
+        $data['cancel_url'] = $this->getCancelUrl();
+        $data['notify_url'] = $this->getReturnUrl();
 
         if ($this->getCard()) {
-            $data['card_holder_name'] = $this->getCard()->getName();
-            $data['street_address'] = $this->getCard()->getAddress1();
-            $data['street_address2'] = $this->getCard()->getAddress2();
-            $data['city'] = $this->getCard()->getCity();
-            $data['state'] = $this->getCard()->getState();
-            $data['zip'] = $this->getCard()->getPostcode();
-            $data['country'] = $this->getCard()->getCountry();
-            $data['phone'] = $this->getCard()->getPhone();
-            $data['email'] = $this->getCard()->getEmail();
+            $data['name_first'] = $this->getCard()->getFirstName();
+            $data['name_last'] = $this->getCard()->getLastName();
+            $data['email_address'] = $this->getCard()->getEmail();
         }
 
-        if ($this->getTestMode()) {
-            $data['demo'] = 'Y';
-        }
+        $data['m_payment_id'] = $this->getTransactionId();
+        $data['amount'] = $this->getAmount();
+        $data['item_name'] = $this->getDescription();
+
+        $data['signature'] = $this->generateSignature($data);
 
         return $data;
     }
 
+    protected function generateSignature($data)
+    {
+        $fields = array();
+
+        // specific order required by PayNow
+        foreach (array('merchant_id', 'merchant_key', 'return_url', 'cancel_url', 'notify_url',
+            'name_first', 'name_last', 'email_address', 'm_payment_id', 'amount', 'item_name',
+            'item_description', 'email_confirmation', 'confirmation_address') as $key) {
+            if (!empty($data[$key])) {
+                $fields[$key] = $data[$key];
+            }
+        }
+
+        return md5(http_build_query($fields));
+    }
+
     public function sendData($data)
     {
-        return $this->response = new PurchaseResponse($this, $data);
+        return $this->response = new PurchaseResponse($this, $data, $this->getEndpoint().'/initiatetransaction');
+    }
+
+    public function getEndpoint()
+    {
+        return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
     }
 }

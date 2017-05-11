@@ -1,15 +1,14 @@
 <?php
 
-namespace Omnipay\PayZim;
+namespace Omnipay\PayNow;
 
 use Omnipay\Common\AbstractGateway;
-use Omnipay\PayZim\Message\CompletePurchaseRequest;
-use Omnipay\PayZim\Message\PurchaseRequest;
 
 /**
  * PayNow Gateway
  *
- * @link http://developers.paynow.co.zw/
+ *
+ * @link https://developers.paynow.co.zw
  */
 class Gateway extends AbstractGateway
 {
@@ -21,39 +20,50 @@ class Gateway extends AbstractGateway
     public function getDefaultParameters()
     {
         return array(
-            'integration_id' => '',
-            'integration_key' => '',
+            'merchantId' => '',
+            'merchantKey' => '',
+            'pdtKey' => '',
             'testMode' => false,
         );
     }
 
-    public function getIntegrationID()
+    public function getMerchantId()
     {
-        return $this->getParameter('integration_id');
+        return $this->getParameter('merchantId');
     }
 
-    public function setIntegrationID($value)
+    public function setMerchantId($value)
     {
-        return $this->setParameter('integration_id', $value);
+        return $this->setParameter('merchantId', $value);
     }
 
-    public function getIntegrationKey()
+    public function getMerchantKey()
     {
-        return $this->getParameter('integration_key');
+        return $this->getParameter('merchantKey');
     }
 
-    public function setIntegrationKey($value)
+    public function setMerchantKey($value)
     {
-        return $this->setParameter('integration_key', $value);
+        return $this->setParameter('merchantKey', $value);
+    }
+
+    public function getPdtKey()
+    {
+        return $this->getParameter('pdtKey');
+    }
+
+    public function setPdtKey($value)
+    {
+        return $this->setParameter('pdtKey', $value);
     }
 
     public function purchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\PayZim\Message\PurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\PayNow\Message\PurchaseRequest', $parameters);
     }
 
     public function completePurchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\PayZim\Message\CompletePurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\PayNow\Message\CompletePurchaseRequest', $parameters);
     }
 }

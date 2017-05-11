@@ -1,9 +1,8 @@
 <?php
 
-namespace Omnipay\PayZim;
+namespace Omnipay\PayNow;
 
 use Omnipay\Tests\GatewayTestCase;
-use Omnipay\Common\CreditCard;
 
 class GatewayTest extends GatewayTestCase
 {
@@ -12,53 +11,21 @@ class GatewayTest extends GatewayTestCase
         parent::setUp();
 
         $this->gateway = new Gateway($this->getHttpClient(), $this->getHttpRequest());
-        $this->gateway->setIntegrationID('123456');
-        $this->gateway->setIntegrationKey('key');
-
-        $this->options = array(
-            'amount' => '10.00',
-            'returnUrl' => 'https://www.example.com/return',
-        );
     }
 
     public function testPurchase()
     {
-        $source = new CreditCard;
-        $response = $this->gateway->purchase($this->options)->send();
+        $request = $this->gateway->purchase(array('amount' => '12.00'));
 
-        $this->assertFalse($response->isSuccessful());
-        $this->assertTrue($response->isRedirect());
-        $this->assertNull($response->getTransactionReference());
-        $this->assertNull($response->getMessage());
-        $this->assertContains('https://www.paynow.co.zw/interface/initiatetransaction?', $response->getRedirectUrl());
-        $this->assertSame('GET', $response->getRedirectMethod());
-        $this->assertNull($response->getRedirectData());
+        $this->assertInstanceOf('\Omnipay\PayNow\Message\PurchaseRequest', $request);
+        $this->assertSame('12.00', $request->getAmount());
     }
 
-    /**
-     * @expectedException Omnipay\Common\Exception\InvalidResponseException
-     */
-    public function testCompletePurchaseError()
+    public function testCompletePurchase()
     {
-        $this->getHttpRequest()->request->replace(array('order_number' => '5', 'key' => 'ZZZ'));
+        $request = $this->gateway->completePurchase(array('amount' => '12.00'));
 
-        $response = $this->gateway->completePurchase($this->options)->send();
-    }
-
-    public function testCompletePurchaseSuccess()
-    {
-        $this->getHttpRequest()->request->replace(
-            array(
-                'order_number' => '5',
-                'key' => md5('key123456510.00'),
-            )
-        );
-
-        $response = $this->gateway->completePurchase($this->options)->send();
-
-        $this->assertTrue($response->isSuccessful());
-        $this->assertFalse($response->isRedirect());
-        $this->assertSame('5', $response->getTransactionReference());
-        $this->assertNull($response->getMessage());
+        $this->assertInstanceOf('\Omnipay\PayNow\Message\CompletePurchaseRequest', $request);
+        $this->assertSame('12.00', $request->getAmount());
     }
 }
